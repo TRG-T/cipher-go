@@ -18,6 +18,16 @@ var galactic = [26]rune{
 	'॥',  'Λ',
 }
 
+func reverse(text []byte) []byte {
+	for i, a:= 0, len(text)-1; i<a; i,a = i+1, a-1 {
+		text[i], text[a] = text[a], text[i]
+	}
+	return text
+}
+
+
 func main() {
-	fmt.Println("2")
+	t := []byte{'a', 'b', 'c'}
+	fmt.Printf("Oryginalny tekst: %v \n", string(t))
+	fmt.Printf("Odwrócony tekst: %v \n", string(reverse(t)))
 }
