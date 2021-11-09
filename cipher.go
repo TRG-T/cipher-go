@@ -25,9 +25,21 @@ func reverse(text []byte) []byte {
 	return text
 }
 
+func cesarEncrypt(text []byte) []byte {
+	for i:=0; i<len(text); i++ {
+        if(text[i]+3 > 122) {
+            text[i] -= 22;
+        } else {
+            text[i] += 3;
+        }
+    }
+    return text;
+}
 
 func main() {
 	t := []byte{'a', 'b', 'c'}
 	fmt.Printf("Oryginalny tekst: %v \n", string(t))
-	fmt.Printf("Odwrócony tekst: %v \n", string(reverse(t)))
+	reversedText := reverse(t)
+	fmt.Printf("Odwrócony tekst: %v \n", string(reversedText))
+	fmt.Printf("Zaszyfrowany cezarem: %v \n", string(cesarEncrypt(reversedText)))
 }
