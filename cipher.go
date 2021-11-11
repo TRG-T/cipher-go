@@ -19,25 +19,24 @@ var galactic = [26]string{
 }
 
 func indexOf(text string) int {
-	a := 0
 	for i:=0; i<len(latin); i++ {
 		if latin[i] == text {
-			a = i
+			return i;
 		}
 	}
-	return a
+	return 0;
 }
 
 func reverse(text []string) []string {
 	for i, a:= 0, len(text)-1; i<a; i, a = i+1, a-1 {
-		text[i], text[a] = text[a], text[i]
+		text[i], text[a] = text[a], text[i];
 	}
-	return text
+	return text;
 }
 
 func ceasarEncrypt(text []string, key int) []string {
 	for i:=0; i<len(text); i++ {
-		latinIndex := indexOf(text[i])
+		latinIndex := indexOf(text[i]);
         if latinIndex+key > 26 {
             text[i] = latin[(latinIndex+key)%26];
         } else {
@@ -48,9 +47,9 @@ func ceasarEncrypt(text []string, key int) []string {
 }
 
 func main() {
-	t := []string{"a", "b", "c", "z"}
-	fmt.Printf("Original text: %v \n", t)
-	reversedText := reverse(t)
-	fmt.Printf("Reversed text: %v \n", reversedText)
-	fmt.Printf("Encrypted with Caesar: %v \n", ceasarEncrypt(reversedText, 3))
+	t := []string{"a", "b", "c", "z"};
+	fmt.Printf("Original text: %v \n", t);
+	reversedText := reverse(t);
+	fmt.Printf("Reversed text: %v \n", reversedText);
+	fmt.Printf("Encrypted with Caesar: %v \n", ceasarEncrypt(reversedText, 3));
 }
