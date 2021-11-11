@@ -34,7 +34,11 @@ func reverse(text []string) []string {
 	return text;
 }
 
-func ceasarEncrypt(text []string, key int) []string {
+func translateLetter(latinIndex int) string {
+	return galactic[latinIndex]
+}
+
+func encrypt(text []string, key int) []string {
 	for i:=0; i<len(text); i++ {
 		latinIndex := indexOf(text[i]);
         if latinIndex+key > 26 {
@@ -42,6 +46,7 @@ func ceasarEncrypt(text []string, key int) []string {
         } else {
             text[i] = latin[latinIndex+key];
         }
+		text[i] = translateLetter(indexOf(text[i]))
     }
     return text;
 }
@@ -51,5 +56,5 @@ func main() {
 	fmt.Printf("Original text: %v \n", t);
 	reversedText := reverse(t);
 	fmt.Printf("Reversed text: %v \n", reversedText);
-	fmt.Printf("Encrypted with Caesar: %v \n", ceasarEncrypt(reversedText, 3));
+	fmt.Printf("Encrypted with Caesar and translated into galactic: %v \n", encrypt(reversedText, 3));
 }
