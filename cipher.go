@@ -1,30 +1,35 @@
 package main
 
-import "fmt" 
+import (
+	"fmt"
+	"strings"
+)
 
-var latin = [26]string{
-	"a", "b", "c", "d", "e", "f",
-	"g", "h", "i", "j", "k", "l",
-	"m", "n", "o", "p", "q", "r",
-	"s", "t", "u", "v", "w", "x",
-	"y", "z",
+var latin = [5][6]string{
+	{"a", "b", "c", "d", "e", "f"},
+	{"g", "h", "i", "j", "k", "l"},
+	{"m", "n", "o", "p", "q", "r"},
+	{"s", "t", "u", "v", "w", "x"},
+	{"y", "z", "!", "?", ":", ","},
 }
 
-var galactic = [26]string{
-	"ᔑ",  "ʖ",  "ᓵ",  "↸", "Ŀ", "⎓",
-	"ㅓ", "〒", "╎",  "፧", "ꖌ", "ꖎ",
-	"ᒲ",  "リ", "フ", "¡", "ᑑ", "።",
-	"ነ",  "ﬧ",  "⚍", "⍊", "∴", "/",
-	"॥",  "Λ",
+var galactic = [5][6]string{	
+	{"ᔑ", "ʖ", "ᓵ", "↸", "Ŀ", "⎓"},
+	{"ㅓ", "〒", "╎", "፧", "ꖌ", "ꖎ"},
+	{"ᒲ", "リ", "フ", "¡", "ᑑ", "።"},
+	{"ነ", "ﬧ", "⚍", "⍊", "∴", "/"},
+	{"॥", "Λ", "ʗ", "˨", "ᚴ", "ᚌ"},
 }
 
-func indexOf(text string) int {
-	for i:=0; i<len(latin); i++ {
-		if latin[i] == text {
-			return i;
+func indexOf(text string) (int, int) {
+	for i:=0; i<5; i++ {
+		for a:=0; a<6; a++ {
+			if latin[i][a] == text {
+				return i, a;
+			}
 		}
 	}
-	return 0;
+	return 0, 0;
 }
 
 func reverse(text []string) []string {
@@ -34,27 +39,23 @@ func reverse(text []string) []string {
 	return text;
 }
 
-func translateLetter(latinIndex int) string {
-	return galactic[latinIndex]
-}
-
-func encrypt(text []string, key int) []string {
+func encrypt(text []string, key int) string {
 	for i:=0; i<len(text); i++ {
-		latinIndex := indexOf(text[i]);
-        if latinIndex+key > 26 {
-            text[i] = latin[(latinIndex+key)%26];
+		latinRow, latinColumn := indexOf(text[i]);
+		fmt.Println(text[i], latinRow, latinColumn)
+        if latinColumn+key >= 6 {
+			text[i] = galactic[latinRow][(latinColumn+key)%6]
         } else {
-            text[i] = latin[latinIndex+key];
+			text[i] = galactic[latinRow][latinColumn+key]
         }
-		text[i] = translateLetter(indexOf(text[i]))
     }
-    return text;
+    return strings.Join(text, "");
 }
 
 func main() {
-	t := []string{"a", "b", "c", "z"};
+	t := []string{"a", "b", "c", "z", "h", "g", "v", "!"};
 	fmt.Printf("Original text: %v \n", t);
 	reversedText := reverse(t);
 	fmt.Printf("Reversed text: %v \n", reversedText);
-	fmt.Printf("Encrypted with Caesar and translated into galactic: %v \n", encrypt(reversedText, 3));
+	fmt.Printf("Encrypted text: %v \n", encrypt(reversedText, 10));
 }
