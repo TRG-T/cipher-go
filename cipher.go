@@ -10,7 +10,7 @@ var latin = [5][6]string{
 	{"g", "h", "i", "j", "k", "l"},
 	{"m", "n", "o", "p", "q", "r"},
 	{"s", "t", "u", "v", "w", "x"},
-	{"y", "z", "!", "?", ":", ","},
+	{"y", "z", "!", "?", ":", " "},
 }
 
 var galactic = [5][6]string{	
@@ -20,6 +20,8 @@ var galactic = [5][6]string{
 	{"ነ", "ﬧ", "⚍", "⍊", "∴", "/"},
 	{"॥", "Λ", "ʗ", "˨", "ᚴ", "ᚌ"},
 }
+var userText string
+var userKey string
 
 func indexOf(text string) (int, int) {
 	for i:=0; i<5; i++ {
@@ -39,10 +41,19 @@ func reverse(text []string) []string {
 	return text;
 }
 
+func stringToKey(key []string) int {
+	var keyInt int
+	for i:=0; i<len(key); i++ {
+		textRow, textColumn := indexOf(key[i])
+		keyInt += textRow + textColumn
+	}
+	fmt.Println(keyInt)
+	return keyInt
+}
+
 func encrypt(text []string, key int) string {
 	for i:=0; i<len(text); i++ {
 		latinRow, latinColumn := indexOf(text[i]);
-		fmt.Println(text[i], latinRow, latinColumn)
         if latinColumn+key >= 6 {
 			text[i] = galactic[latinRow][(latinColumn+key)%6]
         } else {
@@ -53,9 +64,12 @@ func encrypt(text []string, key int) string {
 }
 
 func main() {
-	t := []string{"a", "b", "c", "z", "h", "g", "v", "!"};
-	fmt.Printf("Original text: %v \n", t);
-	reversedText := reverse(t);
+	fmt.Scanln(&userText)
+	fmt.Scanln(&userKey)
+	key := stringToKey(strings.Split(userKey, ""))
+	text := strings.Split(userText, "");
+	fmt.Printf("Original text: %v \n", text);
+	reversedText := reverse(text);
 	fmt.Printf("Reversed text: %v \n", reversedText);
-	fmt.Printf("Encrypted text: %v \n", encrypt(reversedText, 10));
+	fmt.Printf("Encrypted text: %v \n", encrypt(reversedText, key));
 }
