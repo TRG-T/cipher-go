@@ -23,10 +23,10 @@ var galactic = [5][6]string{
 var userText string
 var userKey string
 
-func indexOf(text string) (int, int) {
+func indexOf(letter string) (int, int) {
 	for i:=0; i<5; i++ {
 		for a:=0; a<6; a++ {
-			if latin[i][a] == text {
+			if latin[i][a] == letter {
 				return i, a;
 			}
 		}
@@ -54,19 +54,17 @@ func stringToKey(key []string) int {
 func encrypt(text []string, key int) string {
 	for i:=0; i<len(text); i++ {
 		latinRow, latinColumn := indexOf(text[i]);
-        if latinColumn+key >= 6 {
-			text[i] = galactic[latinRow][(latinColumn+key)%6]
-        } else {
-			text[i] = galactic[latinRow][latinColumn+key]
-        }
+		text[i] = galactic[latinRow][(latinColumn+key)%6]
     }
     return strings.Join(text, "");
 }
 
 func main() {
+	fmt.Println("Enter text to encrypt:");
 	fmt.Scanln(&userText)
+	fmt.Println("Enter key:")
 	fmt.Scanln(&userKey)
-	key := stringToKey(strings.Split(userKey, ""))
+	key := stringToKey(strings.Split(userKey, ""));
 	text := strings.Split(userText, "");
 	fmt.Printf("Original text: %v \n", text);
 	reversedText := reverse(text);
