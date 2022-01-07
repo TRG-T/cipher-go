@@ -69,7 +69,7 @@ func encrypt(text []string, key int) string {
 func decrypt(text []string, key int) string {
 	for i:=0; i<len(text); i++ {
 		row, col := indexOf(text[i], 1);
-		text[i] = latin[row][(col+key)%6]
+		text[i] = latin[row][(col+(key-2))%6]
     }
     return strings.Join(text, "");
 }
@@ -84,10 +84,10 @@ func main() {
 		fmt.Printf("Prompt failed: %v\n", err)
 		return
 	}
-	
+
 	fmt.Println("Enter the text")
 	fmt.Scanln(&userText)
-	fmt.Println("Enter key:")
+	fmt.Println("Enter key (only text): ")
 	fmt.Scanln(&userKey)
 	key := stringToKey(strings.Split(userKey, ""));
 	text := strings.Split(userText, "");
