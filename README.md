@@ -1,0 +1,1 @@
+A similar cipher written in the rust: [cipher-rs](https://github.com/TRG-T/cipher-rs)
