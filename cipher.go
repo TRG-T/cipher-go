@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"github.com/manifoldco/promptui"
 )
 
 var latin = [5][6]string{
@@ -60,14 +61,27 @@ func encrypt(text []string, key int) string {
 }
 
 func main() {
-	fmt.Println("Enter text to encrypt:");
-	fmt.Scanln(&userText)
-	fmt.Println("Enter key:")
-	fmt.Scanln(&userKey)
-	key := stringToKey(strings.Split(userKey, ""));
-	text := strings.Split(userText, "");
-	fmt.Printf("Original text: %v \n", text);
-	reversedText := reverse(text);
-	fmt.Printf("Reversed text: %v \n", reversedText);
-	fmt.Printf("Encrypted text: %v \n", encrypt(reversedText, key));
+	prompt := promptui.Select{
+		Label: "What to do",
+		Items: []string{"Encrypt", "Decrypt"},
+	}
+	_, result, err := prompt.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed: %v\n", err)
+		return
+	}
+
+	fmt.Printf("You chose %q\n", result)
+	if result == "Encrypt" {
+		fmt.Println("Enter text to encrypt")
+		fmt.Scanln(&userText)
+		fmt.Println("Enter key:")
+		fmt.Scanln(&userKey)
+		key := stringToKey(strings.Split(userKey, ""));
+		text := strings.Split(userText, "");
+		fmt.Printf("Original text: %v \n", text);
+		reversedText := reverse(text);
+		fmt.Printf("Reversed text: %v \n", reversedText);
+		fmt.Printf("Encrypted text: %v \n", encrypt(reversedText, key));
+	}
 }
